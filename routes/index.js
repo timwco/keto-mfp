@@ -7,11 +7,19 @@ const moment = require('moment');
 router.get('/', function(req, res, next) {
 
   let date = moment().format('YYYY-MM-DD');
-  console.log(date)
+  let calories = (req.query.f * 9) + (req.query.p * 4) + 80;
+  console.log(req.query);
 
-  mfp.fetchSingleDate('timwco', date, 'all', function(data){
-    console.log(data);
-    res.render('index', { data: data });
+  mfp.fetchSingleDate(req.query.u, date, 'all', function(data){
+
+    res.render('index', { 
+        data: data, 
+        fat: req.query.f, 
+        protein: req.query.p,
+        calories: calories 
+      }
+    );
+
   });
 
 });

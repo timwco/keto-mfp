@@ -1,37 +1,37 @@
 extends layout
 
 block content
-  .notification.is-primary.has-text-centered
-    |   #{data.carbs - data.fiber} Total Carbs
-  table.table.is-striped.is-fullwidth   
+  - var cal_status = (data.calories > calories) ? 'red' : 'green';
+  - var fat_status = (data.fat > fat) ? 'red' : 'green';
+  - var prot_status = (data.protein > protein) ? 'red' : 'green';
+  - var carb_status = ((data.carbs - data.fiber) > 20) ? 'red' : 'green';
+  div(class="notification has-text-centered " + carb_status)
+    | #{data.carbs - data.fiber} Net Carbs
+  table.table.is-striped.is-fullwidth
+    thead
+      tr
+        td
+        td Goal
+        td Current
     tbody
       tr
-        td Calories
-        |               
-        td #{data.calories}
-      |             
+        td 
+          b Calories
+        td #{calories}
+        td(class=cal_status)
+          =data.calories
       tr
-        td Fat
-        |               
-        td #{data.fat}
-      |             
+        td
+         b Fat
+        td #{fat}
+        td(class=fat_status)
+          =data.fat
       tr
-        td Protein
-        |               
-        td #{data.protein}
-      |             
-      tr
-        td Carbs
-        |               
-        td #{data.carbs}
-      |             
-      tr
-        td Fiber
-        |               
-        td #{data.fiber}
-
-  p 
-    i 
-      small Date: 
-      b #{data.date}
-
+        td 
+         b Protein
+        td #{protein}
+        td(class=prot_status)
+          =data.protein
+  hr
+  p.has-text-centered
+    small #{data.date}

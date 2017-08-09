@@ -6,3 +6,14 @@ body {
 a {
   color: #00B7FF;
 }
+
+.green { background-color: #07d25a; color: white; }
+.red { background-color: #ff345d; color: white; }
+
+.notification {
+  font-size: 30px;
+}
+
+table {
+  font-size: 20px;
+}
