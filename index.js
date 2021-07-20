@@ -4,8 +4,10 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+const mfp = require('mfp');
+const moment = require('moment');
 
-var index = require('./routes/index');
+// var index = require('./routes/index');
 
 var app = express();
 
@@ -21,7 +23,25 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', index);
+app.use('/', function(req, res, next) {
+
+  let date = moment().format('YYYY-MM-DD');
+  let calories = (req.query.f * 9) + (req.query.p * 4) + 80;
+  console.log(req.query);
+
+  mfp.fetchSingleDate(req.query.u, date, 'all', function(data){
+
+    res.render('index', { 
+        data: data, 
+        fat: req.query.f, 
+        protein: req.query.p,
+        calories: calories 
+      }
+    );
+
+  });
+
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
