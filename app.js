@@ -20,21 +20,24 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', function(req, res, next) {
 
-  let date = moment().format('YYYY-MM-DD');
-  let calories = (req.query.f * 9) + (req.query.p * 4) + 80;
-  console.log(req.query);
+  if (!req.query.u || !req.query.f || !req.query.p) {
+    res.render('readme');
+  } else {
+    let date = moment().format('YYYY-MM-DD');
+    let calories = (req.query.f * 9) + (req.query.p * 4) + 80;
 
-  mfp.fetchSingleDate(req.query.u, date, 'all', function(data){
+    mfp.fetchSingleDate(req.query.u, date, 'all', function(data){
 
-    res.render('index', { 
-        data: data, 
-        fat: req.query.f, 
-        protein: req.query.p,
-        calories: calories 
-      }
-    );
+      res.render('index', { 
+          data: data, 
+          fat: req.query.f, 
+          protein: req.query.p,
+          calories: calories 
+        }
+      );
 
-  });
+    });
+  }
 
 });
 
